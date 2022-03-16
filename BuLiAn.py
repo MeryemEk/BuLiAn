@@ -283,7 +283,9 @@ def build_matchfacts_return_string(return_game_id_value_team,min_max,attribute,w
 st.sidebar.text('')
 st.sidebar.text('')
 st.sidebar.text('')
-### SEASON RANGE ###
+### Explanation ###
+st.sidebar.markdown("**Give a name to your Food Index")
+FoodIndexName = st.text_input('Your Index', placeholder='$TJX')
 st.sidebar.markdown("**Select the region, ingredients and proportions of your index** 👇")
       
 
@@ -343,18 +345,17 @@ resultat=your_index(selected_region,selected_products,ratios).sort_values(by='Da
 
 row0_spacer1, row0_1, row0_spacer2, row0_2, row0_spacer3 = st.columns((.1, 2.3, .1, 1.3, .1))
 with row0_1:
-    st.title('BuLiAn - Bundesliga Analyzer')
+    st.title('DIY Food Index')
 with row0_2:
     st.text("")
-    st.subheader('DIY Index by [Ek Meryem](https://twitter.com/EkMeryem)')
+    st.subheader('by [Ek Meryem](https://twitter.com/EkMeryem)')
 row3_spacer1, row3_1, row3_spacer2 = st.columns((.1, 3.2, .1))
 with row3_1:
-    st.markdown("Hello there! Have you ever spent your weekend watching the German Bundesliga and had your friends complain about how 'players definitely used to run more' ? However, you did not want to start an argument because you did not have any stats at hand? Well, this interactive application containing Bundesliga data from season 2013/2014 to season 2019/2020 allows you to discover just that! If you're on a mobile device, I would recommend switching over to landscape for viewing ease.")
-    st.markdown("You can find the source code in the [BuLiAn GitHub Repository](https://github.com/tdenzl/BuLiAn)")
-    st.markdown("If you are interested in how this app was developed check out my [Medium article](https://tim-denzler.medium.com/is-bayern-m%C3%BCnchen-the-laziest-team-in-the-german-bundesliga-770cfbd989c7)")
-    st.markdown('Here is the evolution of your index')    
+    st.markdown("Hello there! You can build your own Food Index and play with it.")
+    st.markdown("Download your chart and publish it on Twitter with the #DIYFoodIndex")
+    st.subheader('Here is the evolution of your index:',FoodIndexName)
 
-    fig = plt.figure(figsize=(30, 20))
+    fig = plt.figure(figsize=(30, 16))
     sns.lineplot(x = "Date", y = "Produit_index", data = resultat,color = '#f21111')
     st.pyplot(fig)
     
