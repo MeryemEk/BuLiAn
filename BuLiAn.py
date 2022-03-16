@@ -430,10 +430,7 @@ selected_region = st.sidebar.selectbox('Select the region where you want to see 
 
 selected_products=st.sidebar.multiselect("Select the products you want to have in your index. You can clear the current selection by clicking the corresponding x-button on the right", todate.Produit.unique(), default = ['BLE DUR','TOMATES'])
 
-###RECIPE INPUT###
 
-for i in range(0,len(selected_products)):
-    st.sidebar.number_input(label=selected_products[i],step=100)
    
 
 ###RECIPE INPUT BIS###
@@ -577,11 +574,9 @@ def your_index(region,PRODUITS,QTES):
     your_index=travail.groupby('Date').sum().reset_index()
     return your_index
 
-ratios=[]
-for i in range(0,len(selected_products)):
-    ratios=ratios.append(st.sidebar.number_input(label=selected_products[i],step=100))
+
     
-resultat=your_index(selected_region,selected_products,ratios).sort_values(by='Date')
+resultat=your_index(selected_region,selected_products,qtes).sort_values(by='Date')
 
 with row5_2:
     
