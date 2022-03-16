@@ -434,7 +434,7 @@ selected_products=st.sidebar.multiselect("Select the products you want to have i
 
 for i in range(len(selected_products)):
     ratios=st.sidebar.number_input(label=selected_products[i],step=100,key=i)
-    print(ratios[i)]
+    print(ratios)
    
     
   
