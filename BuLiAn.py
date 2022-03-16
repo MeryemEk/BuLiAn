@@ -423,11 +423,6 @@ if all_teams_selected == 'Select teams manually (choose below)':
 df_data_filtered = filter_teams(df_data_filtered_matchday)    
 
 ### PRODUCT SELECTION ###
-unique_teams = get_unique_teams(df_data_filtered_matchday)
-all_teams_selected = st.sidebar.selectbox('Do you want to only include specific teams? If the answer is yes, please check the box below and then select the team(s) in the new field.', ['Include all available teams','Select teams manually (choose below)'])
-if all_teams_selected == 'Select teams manually (choose below)':
-    selected_teams = st.sidebar.multiselect("Select and deselect the teams you would like to include in the analysis. You can clear the current selection by clicking the corresponding x-button on the right", unique_teams, default = unique_teams)
-df_data_filtered = filter_teams(df_data_filtered_matchday)   
 
 selected_products=st.sidebar.multiselect("Select the products you want to have in your index. You can clear the current selection by clicking the corresponding x-button on the right", todate.Produit.unique(), default = todate.Produit.unique())
 
