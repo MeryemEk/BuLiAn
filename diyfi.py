@@ -20,6 +20,8 @@ import seaborn as sns
 
 
 st.set_page_config(layout="wide")
+st.beta_set_page_config(initial_sidebar_state="expanded")
+
 
 ### Data Import ###
 
