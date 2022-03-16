@@ -426,7 +426,7 @@ df_data_filtered = filter_teams(df_data_filtered_matchday)
 selected_region = st.sidebar.selectbox('Select the region where you want to see your Index',todate.Region.unique())
 ### PRODUCT SELECTION ###
 
-selected_products=st.sidebar.multiselect("Select the products you want to have in your index. You can clear the current selection by clicking the corresponding x-button on the right", todate.Produit.unique(), default = todate.Produit.unique())
+selected_products=st.sidebar.multiselect("Select the products you want to have in your index. You can clear the current selection by clicking the corresponding x-button on the right", todate.Produit.unique(), default = ['BLE DUR','TOMATES'])
 
 ###RECIPE INPUT###
 ratios=st.sidebar.number_input(label="Quantity",step=100)
