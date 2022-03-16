@@ -583,8 +583,12 @@ resultat=your_index(selected_region,selected_products,ratios).sort_values(by='Da
 
 
 with row5_2:
-    st.line_chart(resultat, width=0, height=0, use_container_width=True)
-    
+   with see_data:
+        st.dataframe(data=your_index)
+        
+    fig = plt.figure(figsize=(10, 4))
+    sns.lineplot(x = "Date", y = "Produit_index", data = resultat)
+    st.pyplot(fig)
     
 
 ### TEAM ###
