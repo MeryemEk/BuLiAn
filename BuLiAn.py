@@ -372,8 +372,3 @@ with row5_1:
 
 
 
-for variable in dir():
-    if variable[0:2] != "__":
-        del globals()[variable]
-del variable
-    
