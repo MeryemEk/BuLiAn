@@ -429,7 +429,7 @@ selected_region = st.sidebar.selectbox('Select the region where you want to see 
 selected_products=st.sidebar.multiselect("Select the products you want to have in your index. You can clear the current selection by clicking the corresponding x-button on the right", todate.Produit.unique(), default = todate.Produit.unique())
 
 ###RECIPE INPUT###
-ratios=st.sidebar.number_input(label="Quantity",step=100,format="g")
+ratios=st.sidebar.number_input(label="Quantity",step=100)
 
 ### SEE DATA ###
 row6_spacer1, row6_1, row6_spacer2 = st.columns((.2, 7.1, .2))
