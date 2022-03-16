@@ -20,6 +20,7 @@ import time
 from matplotlib import pyplot as plt
 from  matplotlib.ticker import FuncFormatter
 import seaborn as sns
+import plotly.figure_factory as ff
 
 
 st.set_page_config(layout="wide")
