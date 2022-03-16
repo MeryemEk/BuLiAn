@@ -293,6 +293,8 @@ def plot_x_per_team(attr,measure): #total #against, #conceived
                    textcoords = 'offset points')
     st.pyplot(fig)
 
+
+    
 def plt_attribute_correlation(aspect1, aspect2):
     df_plot = df_data_filtered
     rc = {'figure.figsize':(5,5),
@@ -429,7 +431,7 @@ selected_region = st.sidebar.selectbox('Select the region where you want to see 
 selected_products=st.sidebar.multiselect("Select the products you want to have in your index. You can clear the current selection by clicking the corresponding x-button on the right", todate.Produit.unique(), default = ['BLE DUR','TOMATES'])
 
 ###RECIPE INPUT###
-ratios=st.sidebar.number_input(label="Quantity",step=100)
+
 
 
 for i in range(0,len(selected_products)):
@@ -540,6 +542,45 @@ if all_teams_selected == 'Include all available teams':
         st.markdown(" ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎"+str(df_match_result.iloc[1]['fouls']))
         st.markdown(" ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎"+str(df_match_result.iloc[1]['offside']))
         st.markdown(" ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎"+str(df_match_result.iloc[1]['corners']))
+
+### YOUR INDEX ###
+row4_spacer1, row4_1, row4_spacer2 = st.columns((.2, 7.1, .2))
+with row4_1:
+    st.subheader('Evolution of your index')
+row5_spacer1, row5_1, row5_spacer2, row5_2, row5_spacer3  = st.columns((.2, 2.3, .4, 4.4, .2))
+with row5_1:
+    st.markdown('Here is the evolution of your index')    
+
+    
+    ## Extraire DataFrame avec les produits dans une liste
+def extract_produits(df,produits):
+    return df[df['Produit'].isin(produits)]
+
+## Extraire DataFrame avec les régions dans une liste
+def extract_regions(df,regions):
+    return df[df['Region'].isin(regions)]
+
+def your_index(region,PRODUITS,QTES):
+    recette=pd.DataFrame({'Produit':PRODUITS , 'poids': QTES})
+    recette['RATIO']=recette['poids']/recette.poids.sum()
+    
+    travail=pd.merge(extract_produits(todate[todate['Region']==region],PRODUITS),recette[['Produit','RATIO']],on='Produit')
+    travail['Produit_index']=travail['Valeur']*travail['RATIO']
+    travail=travail[['Date','Produit','Produit_index']]
+    intermed=pd.pivot_table(travail,values='Produit_index',index='Date',columns='Produit',aggfunc=np.mean).reset_index().dropna()
+    travail=travail[travail['Date'].isin(list(intermed.Date))]
+    your_index=travail.groupby('Date').sum().reset_index()
+    return your_index
+
+ratios=[]
+for i in range(0,len(selected_products)):
+    ratios.append(st.sidebar.number_input(label=selected_products[i],step=100))
+    
+resultat=your_index(selected_region,selected_products,ratios).sort_values(by='Date')
+
+with row5_2:
+    
+    st.line_chart(resultat[['Date','Produits_index']])
 
 
 
