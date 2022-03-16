@@ -353,7 +353,7 @@ row3_spacer1, row3_1, row3_spacer2 = st.columns((.1, 3.2, .1))
 with row3_1:
     st.markdown("Hello there! You can build your own Food Index and play with it.")
     st.markdown("Download your chart and publish it on Twitter with the #DIYFoodIndex")
-    st.subheader('Here is the evolution of your index:'FoodIndexName)
+    st.subheader('Here is the evolution of your index:')
 
     fig = plt.figure(figsize=(30, 16))
     sns.lineplot(x = "Date", y = "Produit_index", data = resultat,color = '#f21111')
