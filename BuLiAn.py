@@ -582,10 +582,10 @@ def your_index(region,PRODUITS,QTES):
 resultat=your_index(selected_region,selected_products,ratios).sort_values(by='Date')
 
 with row5_2:
+    st.dataframe(data=your_index)
     
-    #st.line_chart(resultat[['Date','Produits_index']])
-    fig = px.line(resultat.sort_values(by='Date'), x="Date", y="Produit_index",markers=True)
-    st.plotly_chart(fig)
+    st.line_chart(resultat[['Date','Produit_index']])
+    
 
 
 ### TEAM ###
