@@ -80,6 +80,11 @@ def filter_teams(df_data):
         return df_filtered_team
     return df_data
 
+
+
+
+
+
 def stack_home_away_dataframe(df_data):
     df_data["game_id"] = df_data.index + 1
     delta_names = ['goals','ht_goals','shots_on_goal','distance','total_passes','pass_ratio','possession','tackle_ratio','fouls','offside','corners']
@@ -415,7 +420,17 @@ unique_teams = get_unique_teams(df_data_filtered_matchday)
 all_teams_selected = st.sidebar.selectbox('Do you want to only include specific teams? If the answer is yes, please check the box below and then select the team(s) in the new field.', ['Include all available teams','Select teams manually (choose below)'])
 if all_teams_selected == 'Select teams manually (choose below)':
     selected_teams = st.sidebar.multiselect("Select and deselect the teams you would like to include in the analysis. You can clear the current selection by clicking the corresponding x-button on the right", unique_teams, default = unique_teams)
-df_data_filtered = filter_teams(df_data_filtered_matchday)        
+df_data_filtered = filter_teams(df_data_filtered_matchday)    
+
+### PRODUCT SELECTION ###
+unique_teams = get_unique_teams(df_data_filtered_matchday)
+all_teams_selected = st.sidebar.selectbox('Do you want to only include specific teams? If the answer is yes, please check the box below and then select the team(s) in the new field.', ['Include all available teams','Select teams manually (choose below)'])
+if all_teams_selected == 'Select teams manually (choose below)':
+    selected_teams = st.sidebar.multiselect("Select and deselect the teams you would like to include in the analysis. You can clear the current selection by clicking the corresponding x-button on the right", unique_teams, default = unique_teams)
+df_data_filtered = filter_teams(df_data_filtered_matchday)   
+
+selected_products=st.sidebar.multiselect("Select the products you want to have in your index. You can clear the current selection by clicking the corresponding x-button on the right", todate.Produit.unique(), default = todate.Produit.unique())
+
 ### SEE DATA ###
 row6_spacer1, row6_1, row6_spacer2 = st.columns((.2, 7.1, .2))
 with row6_1:
