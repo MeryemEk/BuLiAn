@@ -432,11 +432,16 @@ selected_products=st.sidebar.multiselect("Select the products you want to have i
 
 ###RECIPE INPUT###
 
-
-
 for i in range(0,len(selected_products)):
     st.sidebar.number_input(label=selected_products[i],step=100)
+   
 
+###RECIPE INPUT BIS###
+qtes=[]
+for i in range(0,len(selected_products)):
+    tes=st.sidebar.number_input(label=selected_products[i],step=100)
+    qtes=qtes.append(tes)
+    
 ### SEE DATA ###
 row6_spacer1, row6_1, row6_spacer2 = st.columns((.2, 7.1, .2))
 with row6_1:
