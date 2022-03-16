@@ -293,7 +293,7 @@ with row3_1:
 #################
 ### SELECTION ###
 #################
-df_stacked = stack_home_away_dataframe(df_database)
+
 
 st.sidebar.text('')
 st.sidebar.text('')
@@ -371,20 +371,6 @@ with row5_2:
   
     
 
-### TEAM ###
-row4_spacer1, row4_1, row4_spacer2 = st.columns((.2, 7.1, .2))
-with row4_1:
-    
-    
-    
-row5_spacer1, row5_1, row5_spacer2, row5_2, row5_spacer3  = st.columns((.2, 2.3, .4, 4.4, .2))
-with row5_1:
-    
-with row5_2:
-    
-
-### SEASON ###
-row6_spacer1, row6_1, row6_spacer2 = st.columns((.2, 7.1, .2))
 
 
 for variable in dir():
