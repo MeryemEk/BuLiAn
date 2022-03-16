@@ -434,6 +434,7 @@ selected_products=st.sidebar.multiselect("Select the products you want to have i
 
 for i in range(len(selected_products)):
     ratios=st.sidebar.number_input(label=selected_products[i],step=100,key=i)
+    print(ratios[i)]
    
     
   
@@ -582,7 +583,7 @@ def your_index(region,PRODUITS,QTES):
 
 with row5_2:
     print(ratios)
-    st.line_chart(resultat[['Date','Produits_index']])
+    ##st.line_chart(resultat[['Date','Produits_index']])
 
 
 
