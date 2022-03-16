@@ -25,7 +25,7 @@ import seaborn as sns
 st.set_page_config(layout="wide")
 
 ### Data Import ###
-df_database = pd.read_csv("./data/todate_06.csv")
+df_database = pd.read_csv("data/data_BuLi_13_20_cleaned.csv")
 
 types = ["Mean","Absolute","Median","Maximum","Minimum"]
 label_attr_dict = {"Goals":"goals","Halftime Goals":"ht_goals","Shots on Goal":"shots_on_goal","Distance Covered (in km)":"distance","Passes":"total_passes", "Successful Passes":"success_passes", "Failed Passes":"failed_passes", "Pass Success Ratio":"pass_ratio", "Ball Possession":"possession", "Tackle Success Ratio":"tackle_ratio", "Fouls Committed":"fouls", "Fouls Received":"got_fouled", "Offsides":"offside", "Corners":"corners"}
