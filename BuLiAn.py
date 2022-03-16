@@ -583,7 +583,7 @@ resultat=your_index(selected_region,selected_products,ratios).sort_values(by='Da
 
 with row5_2:
     with see_data:
-        st.dataframe(data=your_index)
+        st.dataframe(resultat)
     #st.line_chart(resultat[['Date','Produit_index']])
     
 
