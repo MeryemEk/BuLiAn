@@ -422,6 +422,8 @@ if all_teams_selected == 'Select teams manually (choose below)':
     selected_teams = st.sidebar.multiselect("Select and deselect the teams you would like to include in the analysis. You can clear the current selection by clicking the corresponding x-button on the right", unique_teams, default = unique_teams)
 df_data_filtered = filter_teams(df_data_filtered_matchday)    
 
+### REGION SELECTION ###
+selected_region = st.sidebar.selectbox('Select the region where you want to see your Index',todate.Region.unique())
 ### PRODUCT SELECTION ###
 
 selected_products=st.sidebar.multiselect("Select the products you want to have in your index. You can clear the current selection by clicking the corresponding x-button on the right", todate.Produit.unique(), default = todate.Produit.unique())
