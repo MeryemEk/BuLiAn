@@ -433,7 +433,7 @@ selected_products=st.sidebar.multiselect("Select the products you want to have i
 ###RECIPE INPUT BIS###
 
 for i in range(len(selected_products)):
-    st.sidebar.number_input(label=selected_products[i],step=100)
+    ratios=st.sidebar.number_input(label=selected_products[i],step=100,key=i)
    
     
   
