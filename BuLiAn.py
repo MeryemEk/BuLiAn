@@ -430,8 +430,13 @@ selected_region = st.sidebar.selectbox('Select the region where you want to see 
 
 selected_products=st.sidebar.multiselect("Select the products you want to have in your index. You can clear the current selection by clicking the corresponding x-button on the right", todate.Produit.unique(), default = ['BLE DUR','TOMATES'])
 
-st.sidebar.number_input(label=selected_products[0],step=100)
-st.sidebar.number_input(label=selected_products[1],step=100)   
+###RECIPE INPUT BIS###
+qtes=[]
+for i in range(len(selected_products)):
+    tes=st.sidebar.number_input(label=selected_products[i],step=100)
+    qtes=qtes.append(tes)
+    
+  
 
 
     
