@@ -25,119 +25,11 @@ import seaborn as sns
 st.set_page_config(layout="wide")
 
 ### Data Import ###
-df_database = pd.read_csv("data/data_BuLi_13_20_cleaned.csv")
+
 todate = pd.read_csv("data/todate_ASCSV.csv")
 
-types = ["Mean","Absolute","Median","Maximum","Minimum"]
-label_attr_dict = {"Goals":"goals","Halftime Goals":"ht_goals","Shots on Goal":"shots_on_goal","Distance Covered (in km)":"distance","Passes":"total_passes", "Successful Passes":"success_passes", "Failed Passes":"failed_passes", "Pass Success Ratio":"pass_ratio", "Ball Possession":"possession", "Tackle Success Ratio":"tackle_ratio", "Fouls Committed":"fouls", "Fouls Received":"got_fouled", "Offsides":"offside", "Corners":"corners"}
-label_attr_dict_teams = {"Goals Scored":"goals","Goals Received":"goals_received","Halftime Goals Scored":"ht_goals","Halftime Goals Received":"halftime_goals_received","Shots on opposing Goal":"shots_on_goal","Shots on own Goal":"shots_on_goal_received","Distance Covered (in km)":"distance","Passes":"total_passes", "Successful Passes":"success_passes", "Failed Passes":"failed_passes", "Pass Success Ratio":"pass_ratio", "Ball Possession":"possession", "Tackle Success Ratio":"tackle_ratio", "Fouls Committed":"fouls", "Fouls Received":"got_fouled", "Offsides":"offside", "Corners":"corners"}
-color_dict = {'1. FC Köln': '#fc4744', '1. FC Nürnberg':'#8c0303', '1. FC Union Berlin':'#edd134', '1. FSV Mainz 05':'#fa2323', 'Bayer 04 Leverkusen':'#cf0c0c', 'Bayern München':'#e62222', 'Bor. Mönchengladbach':'#1f9900', 'Borussia Dortmund':'#fff830', 'Eintracht Braunschweig':'#dbca12', 'Eintracht Frankfurt':'#d10606', 'FC Augsburg':'#007512', 'FC Ingolstadt 04':'#b50300', 'FC Schalke 04':'#1c2afc', 'Fortuna Düsseldorf':'#eb3838', 'Hamburger SV':'#061fc2', 'Hannover 96':'#127a18', 'Hertha BSC':'#005ac2', 'RB Leipzig':'#0707a8', 'SC Freiburg':'#d1332e', 'SC Paderborn 07':'#0546b5', 'SV Darmstadt 98':'#265ade', 'TSG Hoffenheim':'#2b82d9', 'VfB Stuttgart':'#f57171', 'VfL Wolfsburg':'#38d433', 'Werder Bremen':'#10a30b'}
-label_attr_dict_correlation = {"Goals":"delta_goals", "Halftime Goals":"delta_ht_goals","Shots on Goal":"delta_shots_on_goal","Distance Covered (in km)":"delta_distance","Passes":"delta_total_passes","Pass Sucess Ratio":"delta_pass_ratio","Possession":"delta_possession","Tackle Success Ratio":"delta_tackle_ratio","Fouls":"delta_fouls","Offside":"delta_offside","Corners":"delta_corners"}
-label_fact_dict = {"goals scored":'goals',"halftime goals scored":'ht_goals',"shots on the goal":'shots_on_goal',"distance covered (in km)":'distance',"total passes":'total_passes',"pass ratio":'pass_ratio',"possession ratio":'possession',"successful tackle ratio":'tackle_ratio',"fouls":'fouls',"offsides":'offside',"corners":'corners'}
 
-### Helper Methods ###
-def get_unique_seasons_modified(df_data):
-    #returns unique season list in the form "Season 13/14" for labels
-    unique_seasons = np.unique(df_data.season).tolist()
-    seasons_modified = []
-    for s,season in enumerate(unique_seasons):
-        if s==0:
-            season = "‏‏‎ ‎‏‏‎ ‎" + season
-        if s==len(unique_seasons)-1:
-            season = season + "‏‏‎ ‎‏‏‎ ‎"
-        seasons_modified.append(season.replace("-","/"))
-    return seasons_modified
-
-def get_unique_matchdays(df_data):
-    #returns minimum and maximum
-    return np.unique(df_data.matchday).tolist()
-
-def get_unique_teams(df_data):
-    unique_teams = np.unique(df_data.team).tolist()
-    return unique_teams
-
-def filter_season(df_data):
-    df_filtered_season = pd.DataFrame()
-    seasons = np.unique(df_data.season).tolist() #season list "13-14"
-    start_raw = start_season.replace("/","-").replace("‏‏‎ ‎‏‏‎ ‎","") #get raw start season "13-14"
-    end_raw = end_season.replace("/","-").replace("‏‏‎ ‎‏‏‎ ‎","") #get raw end season "19-20"
-    start_index = seasons.index(start_raw)
-    end_index = seasons.index(end_raw)+1
-    seasons_selected = seasons[start_index:end_index]
-    df_filtered_season = df_data[df_data['season'].isin(seasons_selected)]
-    return df_filtered_season
-
-def filter_matchday(df_data):
-    df_filtered_matchday = pd.DataFrame()
-    matchdays_list = list(range(selected_matchdays[0], selected_matchdays[1]+1))
-    df_filtered_matchday = df_data[df_data['matchday'].isin(matchdays_list)]
-    return df_filtered_matchday
-
-def filter_teams(df_data):
-    df_filtered_team = pd.DataFrame()
-    if all_teams_selected == 'Select teams manually (choose below)':
-        df_filtered_team = df_data[df_data['team'].isin(selected_teams)]
-        return df_filtered_team
-    return df_data
-
-
-
-
-
-
-def stack_home_away_dataframe(df_data):
-    df_data["game_id"] = df_data.index + 1
-    delta_names = ['goals','ht_goals','shots_on_goal','distance','total_passes','pass_ratio','possession','tackle_ratio','fouls','offside','corners']
-    for column in delta_names:
-        h_delta_column = 'h_delta_'+ column
-        a_delta_column = 'a_delta_'+ column
-        h_column = 'h_'+ column
-        a_column = 'a_'+ column
-        df_data[h_delta_column] = df_data[h_column]-df_data[a_column]
-        df_data[a_delta_column] = df_data[a_column]-df_data[h_column]
-    #st.dataframe(data=df_data)
-    column_names = ['distance','total_passes','success_passes','failed_passes','pass_ratio','possession','tackle_ratio','offside','corners','delta_goals','delta_ht_goals','delta_shots_on_goal','delta_distance','delta_total_passes','delta_pass_ratio','delta_possession','delta_tackle_ratio','delta_fouls','delta_offside','delta_corners']
-    h_column_names = ['game_id','season','matchday','h_team','h_goals','a_goals','h_ht_goals','a_ht_goals','h_shots_on_goal','a_shots_on_goal','h_fouls','a_fouls']
-    a_column_names = ['game_id','season','matchday','a_team','a_goals','h_goals','a_ht_goals','h_ht_goals','a_shots_on_goal','h_shots_on_goal','a_fouls','h_fouls']
-    column_names_new = ['game_id','season','matchday','location','team','goals','goals_received','ht_goals','ht_goals_received','shots_on_goal','shots_on_goal_received','fouls','got_fouled','distance','total_passes','success_passes','failed_passes','pass_ratio','possession','tackle_ratio','offside','corners','delta_goals','delta_ht_goals','delta_shots_on_goal','delta_distance','delta_total_passes','delta_pass_ratio','delta_possession','delta_tackle_ratio','delta_fouls','delta_offside','delta_corners']
-    for column in column_names: 
-        h_column_names.append("h_" + column)
-        a_column_names.append("a_" + column)
-    df_home = df_data.filter(h_column_names)
-    df_away = df_data.filter(a_column_names)
-    df_home.insert(3,'location','h')
-    df_away.insert(3,'location','a')
-    df_home.columns = column_names_new
-    df_away.columns = column_names_new
-    df_total = df_home.append(df_away, ignore_index=True).sort_values(['game_id','season', 'matchday'], ascending=[True,True, True])
-    df_total_sorted = df_total[['game_id','season','matchday','location','team','goals','goals_received','delta_goals','ht_goals','ht_goals_received','delta_ht_goals','shots_on_goal','shots_on_goal_received','delta_shots_on_goal','distance','delta_distance','total_passes','delta_total_passes','success_passes','failed_passes','pass_ratio','delta_pass_ratio','possession','delta_possession','tackle_ratio','delta_tackle_ratio','fouls','got_fouled','delta_fouls','offside','delta_offside','corners','delta_corners']]
-    return df_total_sorted
-
-def group_measure_by_attribute(aspect,attribute,measure):
-    df_data = df_data_filtered
-    df_return = pd.DataFrame()
-    if(measure == "Absolute"):
-        if(attribute == "pass_ratio" or attribute == "tackle_ratio" or attribute == "possession"):
-            measure = "Mean"
-        else:
-            df_return = df_data.groupby([aspect]).sum()            
-    
-    if(measure == "Mean"):
-        df_return = df_data.groupby([aspect]).mean()
-        
-    if(measure == "Median"):
-        df_return = df_data.groupby([aspect]).median()
-    
-    if(measure == "Minimum"):
-        df_return = df_data.groupby([aspect]).min()
-    
-    if(measure == "Maximum"):
-        df_return = df_data.groupby([aspect]).max()
-    
-    df_return["aspect"] = df_return.index
-    if aspect == "team":
-        df_return = df_return.sort_values(by=[attribute], ascending = False)
-    return df_return
+### 
     
 ########################
 ### ANALYSIS METHODS ###
@@ -407,22 +299,10 @@ st.sidebar.text('')
 st.sidebar.text('')
 st.sidebar.text('')
 ### SEASON RANGE ###
-st.sidebar.markdown("**First select the data range you want to analyze:** 👇")
-unique_seasons = get_unique_seasons_modified(df_database)
-start_season, end_season = st.sidebar.select_slider('Select the season range you want to include', unique_seasons, value = ["‏‏‎ ‎‏‏‎ ‎13/14","19/20‏‏‎ ‎‏‏‎ ‎"])
-df_data_filtered_season = filter_season(df_stacked)        
+st.sidebar.markdown("**Select the region, ingredients and proportions of your index** 👇")
+      
 
-### MATCHDAY RANGE ###
-unique_matchdays = get_unique_matchdays(df_data_filtered_season) #min and max matchday
-selected_matchdays = st.sidebar.select_slider('Select the matchday range you want to include', unique_matchdays, value=[min(unique_matchdays),max(unique_matchdays)])
-df_data_filtered_matchday = filter_matchday(df_data_filtered_season)        
 
-### TEAM SELECTION ###
-unique_teams = get_unique_teams(df_data_filtered_matchday)
-all_teams_selected = st.sidebar.selectbox('Do you want to only include specific teams? If the answer is yes, please check the box below and then select the team(s) in the new field.', ['Include all available teams','Select teams manually (choose below)'])
-if all_teams_selected == 'Select teams manually (choose below)':
-    selected_teams = st.sidebar.multiselect("Select and deselect the teams you would like to include in the analysis. You can clear the current selection by clicking the corresponding x-button on the right", unique_teams, default = unique_teams)
-df_data_filtered = filter_teams(df_data_filtered_matchday)    
 
 ### REGION SELECTION ###
 selected_region = st.sidebar.selectbox('Select the region where you want to see your Index',todate.Region.unique())
@@ -431,7 +311,7 @@ selected_region = st.sidebar.selectbox('Select the region where you want to see 
 selected_products=st.sidebar.multiselect("Select the products you want to have in your index. You can clear the current selection by clicking the corresponding x-button on the right", todate.Produit.unique(), default = ['BLE DUR','TOMATES'])
 
 ###RECIPE INPUT BIS###
-
+st.sidebar.markdown("For each ingredient, specify the quantity in g")
 for i in range(len(selected_products)):
     ratios=st.sidebar.number_input(label=selected_products[i],step=100,key=i)
     
@@ -441,111 +321,13 @@ for i in range(len(selected_products)):
 
 
     
-### SEE DATA ###
-row6_spacer1, row6_1, row6_spacer2 = st.columns((.2, 7.1, .2))
-with row6_1:
-    st.subheader("Currently selected data:")
-    
-    
-    
-
-row2_spacer1, row2_1, row2_spacer2, row2_2, row2_spacer3, row2_3, row2_spacer4, row2_4, row2_spacer5   = st.columns((.2, 1.6, .2, 1.6, .2, 1.6, .2, 1.6, .2))
-with row2_1:
-    unique_games_in_df = df_data_filtered.game_id.nunique()
-    str_games = "🏟️ " + str(unique_games_in_df) + " Matches"
-    st.markdown(str_games)
-with row2_2:
-    unique_teams_in_df = len(np.unique(df_data_filtered.team).tolist())
-    t = " Teams"
-    if(unique_teams_in_df==1):
-        t = " Team"
-    str_teams = "🏃‍♂️ " + str(unique_teams_in_df) + t
-    st.markdown(str_teams)
-with row2_3:
-    total_goals_in_df = df_data_filtered['goals'].sum()
-    str_goals = "🥅 " + str(total_goals_in_df) + " Goals"
-    st.markdown(str_goals)
-with row2_4:
-    total_shots_in_df = df_data_filtered['shots_on_goal'].sum()
-    str_shots = "👟⚽ " + str(total_shots_in_df) + " Shots"
-    st.markdown(str_shots)
-
-row3_spacer1, row3_1, row3_spacer2 = st.columns((.2, 7.1, .2))
-with row3_1:
-    st.markdown("")
-    see_data = st.expander('You can click here to see the raw data first 👉')
-    with see_data:
-        st.dataframe(data=df_data_filtered.reset_index(drop=True))
-st.text('')
-
-#st.dataframe(data=df_stacked.reset_index(drop=True))
-#st.dataframe(data=df_data_filtered)
-
 
 
 ################
 ### ANALYSIS ###
 ################
 
-### DATA EXPLORER ###
-row12_spacer1, row12_1, row12_spacer2 = st.columns((.2, 7.1, .2))
-with row12_1:
-    st.subheader('Match Finder')
-    st.markdown('Show the (or a) match with the...')  
-if all_teams_selected == 'Include all available teams':
-    row13_spacer1, row13_1, row13_spacer2, row13_2, row13_spacer3, row13_3, row13_spacer4   = st.columns((.2, 2.3, .2, 2.3, .2, 2.3, .2))
-    with row13_1:
-        show_me_hi_lo = st.selectbox ("", ["Maximum","Minimum"],key = 'hi_lo') 
-    with row13_2:
-        show_me_aspect = st.selectbox ("", list(label_fact_dict.keys()),key = 'what')
-    with row13_3:
-        show_me_what = st.selectbox ("", ["by a team", "by both teams", "difference between teams"],key = 'one_both_diff')
-    row14_spacer1, row14_1, row14_spacer2 = st.columns((.2, 7.1, .2))
-    with row14_1:
-        return_game_id_value_team = find_match_game_id(show_me_hi_lo,show_me_aspect,show_me_what)
-        df_match_result = build_matchfacts_return_string(return_game_id_value_team,show_me_hi_lo,show_me_aspect,show_me_what)     
-    row15_spacer1, row15_1, row15_2, row15_3, row15_4, row15_spacer2  = st.columns((0.5, 1.5, 1.5, 1, 2, 0.5))
-    with row15_1:
-        st.subheader(" ‎")
-    with row15_2:
-        st.subheader(str(df_match_result.iloc[0]['team']))
-    with row15_3:
-        end_result = str(df_match_result.iloc[0]['goals']) + " : " +str(df_match_result.iloc[1]['goals'])
-        ht_result = " ‎ ‎( " + str(df_match_result.iloc[0]['ht_goals']) + " : " +str(df_match_result.iloc[1]['ht_goals']) + " )"
-        st.subheader(end_result + " " + ht_result)  
-    with row15_4:
-        st.subheader(str(df_match_result.iloc[1]['team']))
-else:
-    row17_spacer1, row17_1, row17_spacer2 = st.columns((.2, 7.1, .2))
-    with row17_1:
-        st.warning('Unfortunately this analysis is only available if all teams are included')
 
-if all_teams_selected == 'Include all available teams':
-    row16_spacer1, row16_1, row16_2, row16_3, row16_4, row16_spacer2  = st.columns((0.5, 1.5, 1.5, 1, 2, 0.5))
-    with row16_1:
-        st.markdown("👟 Shots on Goal")
-        st.markdown("🏃‍♂️ Distance (in km)")
-        st.markdown("🔁 Passes")
-        st.markdown("🤹‍♂️ Possession")
-        st.markdown("🤕 Fouls")
-        st.markdown("🚫 Offside")
-        st.markdown("📐 Corners")
-    with row16_2:
-        st.markdown(" ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎"+str(df_match_result.iloc[0]['shots_on_goal']))
-        st.markdown(" ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎"+str(df_match_result.iloc[0]['distance']))
-        st.markdown(" ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎‎"+str(df_match_result.iloc[0]['total_passes']))
-        st.markdown(" ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎‎ ‎‎"+str(df_match_result.iloc[0]['possession']))
-        st.markdown(" ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎"+str(df_match_result.iloc[0]['fouls']))
-        st.markdown(" ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎"+str(df_match_result.iloc[0]['offside']))
-        st.markdown(" ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎"+str(df_match_result.iloc[0]['corners']))
-    with row16_4:
-        st.markdown(" ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎"+str(df_match_result.iloc[1]['shots_on_goal']))
-        st.markdown(" ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎"+str(df_match_result.iloc[1]['distance']))
-        st.markdown(" ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎‎"+str(df_match_result.iloc[1]['total_passes']))
-        st.markdown(" ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎‎"+str(df_match_result.iloc[1]['possession']))
-        st.markdown(" ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎"+str(df_match_result.iloc[1]['fouls']))
-        st.markdown(" ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎"+str(df_match_result.iloc[1]['offside']))
-        st.markdown(" ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎"+str(df_match_result.iloc[1]['corners']))
 
 ### YOUR INDEX ###
 row4_spacer1, row4_1, row4_spacer2 = st.columns((.2, 7.1, .2))
@@ -583,81 +365,27 @@ resultat=your_index(selected_region,selected_products,ratios).sort_values(by='Da
 
 
 with row5_2:
-   with see_data:
-        st.dataframe(data=resultat)
+    fig = plt.figure(figsize=(10, 4))
+        sns.lineplot(x = "Date", y = "Produit_index", data = resultat,color = '#f21111')
+        st.pyplot(fig)
   
     
 
 ### TEAM ###
 row4_spacer1, row4_1, row4_spacer2 = st.columns((.2, 7.1, .2))
 with row4_1:
-    st.subheader('Analysis per Team')
-    fig = plt.figure(figsize=(10, 4))
-    sns.lineplot(x = "Date", y = "Produit_index", data = resultat)
-    st.pyplot(fig)
+    
+    
     
 row5_spacer1, row5_1, row5_spacer2, row5_2, row5_spacer3  = st.columns((.2, 2.3, .4, 4.4, .2))
 with row5_1:
-    st.markdown('Investigate a variety of stats for each team. Which team scores the most goals per game? How does your team compare in terms of distance ran per game?')    
- 
-    plot_x_per_team_selected = st.selectbox ("Which attribute do you want to analyze?", list(label_attr_dict_teams.keys()), key = 'attribute_team')
-    plot_x_per_team_type = st.selectbox ("Which measure do you want to analyze?", types, key = 'measure_team')
-    specific_team_colors = st.checkbox("Use team specific color scheme")
+    
 with row5_2:
-    if all_teams_selected != 'Select teams manually (choose below)' or selected_teams:
-        plot_x_per_team(plot_x_per_team_selected, plot_x_per_team_type)
-    else:
-        st.warning('Please select at least one team')
+    
 
 ### SEASON ###
 row6_spacer1, row6_1, row6_spacer2 = st.columns((.2, 7.1, .2))
-with row6_1:
-    st.subheader('Analysis per Season')
-row7_spacer1, row7_1, row7_spacer2, row7_2, row7_spacer3  = st.columns((.2, 2.3, .4, 4.4, .2))
-with row7_1:
-    st.markdown('Investigate developments and trends. Which season had teams score the most goals? Has the amount of passes per games changed?')    
-    plot_x_per_season_selected = st.selectbox ("Which attribute do you want to analyze?", list(label_attr_dict.keys()), key = 'attribute_season')
-    plot_x_per_season_type = st.selectbox ("Which measure do you want to analyze?", types, key = 'measure_season')
-with row7_2:
-    if all_teams_selected != 'Select teams manually (choose below)' or selected_teams:
-        plot_x_per_season(plot_x_per_season_selected,plot_x_per_season_type)
-    else:
-        st.warning('Please select at least one team')
 
-### MATCHDAY ###
-row8_spacer1, row8_1, row8_spacer2 = st.columns((.2, 7.1, .2))
-with row8_1:
-    st.subheader('Analysis per Matchday')
-row9_spacer1, row9_1, row9_spacer2, row9_2, row9_spacer3  = st.columns((.2, 2.3, .4, 4.4, .2))
-with row9_1:
-    st.markdown('Investigate stats over the course of a season. At what point in the season do teams score the most goals? Do teams run less towards the end of the season?')    
-    plot_x_per_matchday_selected = st.selectbox ("Which aspect do you want to analyze?", list(label_attr_dict.keys()), key = 'attribute_matchday')
-    plot_x_per_matchday_type = st.selectbox ("Which measure do you want to analyze?", types, key = 'measure_matchday')
-with row9_2:
-    if all_teams_selected != 'Select teams manually (choose below)' or selected_teams:
-        plot_x_per_matchday(plot_x_per_matchday_selected, plot_x_per_matchday_type)
-    else:
-        st.warning('Please select at least one team')
-
-
-
-### CORRELATION ###
-corr_plot_types = ["Regression Plot (Recommended)","Standard Scatter Plot"] #removed "Violin Plot (High Computation)"
-
-row10_spacer1, row10_1, row10_spacer2 = st.columns((.2, 7.1, .2))
-with row10_1:
-    st.subheader('Correlation of Game Stats')
-row11_spacer1, row11_1, row11_spacer2, row11_2, row11_spacer3  = st.columns((.2, 2.3, .4, 4.4, .2))
-with row11_1:
-    st.markdown('Investigate the correlation of attributes, but keep in mind correlation does not imply causation. Do teams that run more than their opponents also score more goals? Do teams that have more shots than their opponents have more corners?')    
-    corr_type = st.selectbox ("What type of correlation plot do you want to see?", corr_plot_types)
-    y_axis_aspect2 = st.selectbox ("Which attribute do you want on the y-axis?", list(label_attr_dict_correlation.keys()))
-    x_axis_aspect1 = st.selectbox ("Which attribute do you want on the x-axis?", list(label_attr_dict_correlation.keys()))
-with row11_2:
-    if all_teams_selected != 'Select teams manually (choose below)' or selected_teams:
-        plt_attribute_correlation(x_axis_aspect1, y_axis_aspect2)
-    else:
-        st.warning('Please select at least one team')
 
 for variable in dir():
     if variable[0:2] != "__":
