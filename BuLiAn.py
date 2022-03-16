@@ -583,8 +583,7 @@ resultat=your_index(selected_region,selected_products,ratios).sort_values(by='Da
 
 
 with row5_2:
-    fig = px.line(resultat, x="Date", y="Produit_index",markers=True)
-    st.plotly_chart(fig, use_container_width=True)
+    st.line_chart(resultat)
     
 
 ### TEAM ###
@@ -594,6 +593,7 @@ with row4_1:
 row5_spacer1, row5_1, row5_spacer2, row5_2, row5_spacer3  = st.columns((.2, 2.3, .4, 4.4, .2))
 with row5_1:
     st.markdown('Investigate a variety of stats for each team. Which team scores the most goals per game? How does your team compare in terms of distance ran per game?')    
+ 
     plot_x_per_team_selected = st.selectbox ("Which attribute do you want to analyze?", list(label_attr_dict_teams.keys()), key = 'attribute_team')
     plot_x_per_team_type = st.selectbox ("Which measure do you want to analyze?", types, key = 'measure_team')
     specific_team_colors = st.checkbox("Use team specific color scheme")
