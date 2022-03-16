@@ -583,10 +583,9 @@ resultat=your_index(selected_region,selected_products,ratios).sort_values(by='Da
 
 
 with row5_2:
-   st.line_chart(resultat,width=0, height=0,use_container_width=True)
-
+    fig = px.line(resultat, x="Date", y="Produit_index",markers=True)
+    st.plotly_chart(fig, use_container_width=True)
     
-
 
 ### TEAM ###
 row4_spacer1, row4_1, row4_spacer2 = st.columns((.2, 7.1, .2))
