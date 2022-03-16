@@ -362,7 +362,7 @@ row5_spacer1, row5_1, row5_spacer2, row5_2, row5_spacer3  = st.columns((.2, 2.3,
 with row5_1:
     st.markdown('Here is the evolution of your index')    
 
-    fig = plt.figure(figsize=(10, 4))
+    fig = plt.figure(figsize=(30, 20))
     sns.lineplot(x = "Date", y = "Produit_index", data = resultat,color = '#f21111')
     st.pyplot(fig)
 
