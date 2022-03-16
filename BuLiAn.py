@@ -585,16 +585,17 @@ resultat=your_index(selected_region,selected_products,ratios).sort_values(by='Da
 with row5_2:
    with see_data:
         st.dataframe(data=your_index)
-        
-    fig = plt.figure(figsize=(10, 4))
-    sns.lineplot(x = "Date", y = "Produit_index", data = resultat)
-    st.pyplot(fig)
+  
     
 
 ### TEAM ###
 row4_spacer1, row4_1, row4_spacer2 = st.columns((.2, 7.1, .2))
 with row4_1:
     st.subheader('Analysis per Team')
+    fig = plt.figure(figsize=(10, 4))
+    sns.lineplot(x = "Date", y = "Produit_index", data = resultat)
+    st.pyplot(fig)
+    
 row5_spacer1, row5_1, row5_spacer2, row5_2, row5_spacer3  = st.columns((.2, 2.3, .4, 4.4, .2))
 with row5_1:
     st.markdown('Investigate a variety of stats for each team. Which team scores the most goals per game? How does your team compare in terms of distance ran per game?')    
