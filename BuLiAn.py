@@ -581,8 +581,10 @@ def your_index(region,PRODUITS,QTES):
     
 resultat=your_index(selected_region,selected_products,ratios).sort_values(by='Date')
 
-with row5_2:    
-    st.line_chart(resultat[['Date','Produit_index']])
+with row5_2:
+    with see_data:
+        st.dataframe(data=your_index)
+    #st.line_chart(resultat[['Date','Produit_index']])
     
 
 
