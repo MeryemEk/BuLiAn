@@ -433,8 +433,8 @@ selected_products=st.sidebar.multiselect("Select the products you want to have i
 ###RECIPE INPUT BIS###
 qtes=[]
 for i in range(len(selected_products)):
-    tes=st.sidebar.number_input(label=selected_products[i],step=100)
-    qtes=qtes.append(tes)
+    st.sidebar.number_input(label=selected_products[i],step=100)
+    qtes.append(st.sidebar.number_input(label=selected_products[i],step=100))
     
   
 
