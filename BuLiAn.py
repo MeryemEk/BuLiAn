@@ -431,13 +431,16 @@ selected_products=st.sidebar.multiselect("Select the products you want to have i
 ###RECIPE INPUT###
 ratios=st.sidebar.number_input(label="Quantity",step=100)
 
-for i in range(0,len(selected_products)-1):
+for i in range(0,len(selected_products)):
     ratios[i]=st.sidebar.number_input(label=selected_products[i],step=100)
 
 ### SEE DATA ###
 row6_spacer1, row6_1, row6_spacer2 = st.columns((.2, 7.1, .2))
 with row6_1:
     st.subheader("Currently selected data:")
+    
+    
+    
 
 row2_spacer1, row2_1, row2_spacer2, row2_2, row2_spacer3, row2_3, row2_spacer4, row2_4, row2_spacer5   = st.columns((.2, 1.6, .2, 1.6, .2, 1.6, .2, 1.6, .2))
 with row2_1:
