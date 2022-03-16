@@ -575,7 +575,10 @@ def your_index(region,PRODUITS,QTES):
     your_index=travail.groupby('Date').sum().reset_index()
     return your_index
 
-qtes=[st.sidebar.number_input(label=selected_products[i],step=100) for i in range(len(selected_products) ]
+qtes=[]
+for i in range(len(selected_products)):
+    qtes.append(st.sidebar.number_input(label=selected_products[i],step=100))
+
     
 resultat=your_index(selected_region,selected_products,qtes).sort_values(by='Date')
 
