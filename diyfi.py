@@ -54,7 +54,7 @@ st.sidebar.markdown("**Select the region, ingredients and proportions of your in
 selected_region = st.sidebar.selectbox('Select the region where you want to see your Index',todate.Region.unique())
 ### PRODUCT SELECTION ###
 
-selected_products=st.sidebar.multiselect("Select the products you want to have in your index. You can clear the current selection by clicking the corresponding x-button on the right", todate[todate['Region']==selected_region].Produit.unique(), default = ['BLE DUR','TOMATES'])
+selected_products=st.sidebar.multiselect("Select the products you want to have in your index. You can clear the current selection by clicking the corresponding x-button on the right", todate[todate['Region']==selected_region].Produit.unique(), default = ['pommes de terre','tomates','aubergines'])
 
 ###RECIPE INPUT BIS###
 st.sidebar.markdown("For each ingredient, specify the quantity in g")
