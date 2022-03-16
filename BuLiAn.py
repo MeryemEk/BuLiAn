@@ -574,7 +574,7 @@ def your_index(region,PRODUITS,QTES):
 
 ratios=[]
 for i in range(0,len(selected_products)):
-    ratios.append(st.sidebar.number_input(label=selected_products[i],step=100))
+    ratios=ratios.append(st.sidebar.number_input(label=selected_products[i],step=100))
     
 resultat=your_index(selected_region,selected_products,ratios).sort_values(by='Date')
 
