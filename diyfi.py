@@ -41,9 +41,7 @@ todate = pd.read_csv("data/todate_ASCSV.csv")
 #################
 
 
-st.sidebar.text('')
-st.sidebar.text('')
-st.sidebar.text('')
+
 ### Explanation ###
 st.sidebar.markdown("**Give a name to your Food Index**")
 FoodIndexName = st.sidebar.text_input('Your Index', placeholder='$TJX')
