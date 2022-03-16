@@ -284,8 +284,8 @@ st.sidebar.text('')
 st.sidebar.text('')
 st.sidebar.text('')
 ### Explanation ###
-st.sidebar.markdown("**Give a name to your Food Index")
-FoodIndexName = st.text_input('Your Index', placeholder='$TJX')
+st.sidebar.markdown("**Give a name to your Food Index**")
+FoodIndexName = st.sidebar.text_input('Your Index', placeholder='$TJX')
 st.sidebar.markdown("**Select the region, ingredients and proportions of your index** 👇")
       
 
@@ -353,24 +353,13 @@ row3_spacer1, row3_1, row3_spacer2 = st.columns((.1, 3.2, .1))
 with row3_1:
     st.markdown("Hello there! You can build your own Food Index and play with it.")
     st.markdown("Download your chart and publish it on Twitter with the #DIYFoodIndex")
-    st.subheader('Here is the evolution of your index:',FoodIndexName)
+    st.subheader('Here is the evolution of your index:'FoodIndexName)
 
     fig = plt.figure(figsize=(30, 16))
     sns.lineplot(x = "Date", y = "Produit_index", data = resultat,color = '#f21111')
     st.pyplot(fig)
     
 
-### YOUR INDEX ###
-row4_spacer1, row4_1, row4_spacer2 = st.columns((.2, 7.1, .2))
-with row4_1:
-    st.subheader('Evolution of your index')
-row5_spacer1, row5_1, row5_spacer2, row5_2, row5_spacer3  = st.columns((.2, 2.3, .4, 4.4, .2))
-with row5_1:
-    st.markdown('Here is the evolution of your index')    
-
-    fig = plt.figure(figsize=(30, 20))
-    sns.lineplot(x = "Date", y = "Produit_index", data = resultat,color = '#f21111')
-    st.pyplot(fig)
 
 
   
