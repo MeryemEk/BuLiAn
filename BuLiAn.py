@@ -327,16 +327,6 @@ for i in range(len(selected_products)):
 ### ANALYSIS ###
 ################
 
-
-
-### YOUR INDEX ###
-row4_spacer1, row4_1, row4_spacer2 = st.columns((.2, 7.1, .2))
-with row4_1:
-    st.subheader('Evolution of your index')
-row5_spacer1, row5_1, row5_spacer2, row5_2, row5_spacer3  = st.columns((.2, 2.3, .4, 4.4, .2))
-with row5_1:
-    st.markdown('Here is the evolution of your index')    
-
     
     ## Extraire DataFrame avec les produits dans une liste
 def extract_produits(df,produits):
@@ -364,10 +354,19 @@ def your_index(region,PRODUITS,QTES):
 resultat=your_index(selected_region,selected_products,ratios).sort_values(by='Date')
 
 
-with row5_2:
+### YOUR INDEX ###
+row4_spacer1, row4_1, row4_spacer2 = st.columns((.2, 7.1, .2))
+with row4_1:
+    st.subheader('Evolution of your index')
+row5_spacer1, row5_1, row5_spacer2, row5_2, row5_spacer3  = st.columns((.2, 2.3, .4, 4.4, .2))
+with row5_1:
+    st.markdown('Here is the evolution of your index')    
+
     fig = plt.figure(figsize=(10, 4))
     sns.lineplot(x = "Date", y = "Produit_index", data = resultat,color = '#f21111')
-    st.pyplot(fig)
+    st.pyplot(fig
+
+
   
     
 
