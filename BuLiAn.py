@@ -583,7 +583,7 @@ resultat=your_index(selected_region,selected_products,ratios).sort_values(by='Da
 
 
 with row5_2:
-   st.line_chart(resultat,use_container_width=True)
+   st.line_chart(resultat,width=0, height=0,use_container_width=True)
 
     
 
