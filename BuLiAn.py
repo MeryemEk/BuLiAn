@@ -578,7 +578,7 @@ def your_index(region,PRODUITS,QTES):
     
 
     
-resultat=your_index(selected_region,selected_products,qtes).sort_values(by='Date')
+## resultat=your_index(selected_region,selected_products,qtes).sort_values(by='Date')
 
 with row5_2:
     print(ratios)
