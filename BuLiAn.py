@@ -364,7 +364,7 @@ with row5_1:
 
     fig = plt.figure(figsize=(10, 4))
     sns.lineplot(x = "Date", y = "Produit_index", data = resultat,color = '#f21111')
-    st.pyplot(fig
+    st.pyplot(fig)
 
 
   
