@@ -26,6 +26,7 @@ st.set_page_config(initial_sidebar_state="expanded")
 ### Data Import ###
 
 todate = pd.read_csv("data/todate_ASCSV.csv")
+todate['Date']=pd.to_datetime(todate['Date'])
 
 
 ### 
